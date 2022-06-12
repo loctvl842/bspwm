@@ -1,11 +1,12 @@
-ADDITIONAL_GAP=5
+ADDITIONAL_GAP=0
 BSPWM_CONFIG='/home/loc/.config/bspwm/bspwmrc'
 
 topPadding=$(grep 'top_padding' ~/.config/bspwm/bspwmrc | grep -oP 'top_padding \K\w+')
-theme=$(grep -w theme ~/.config/i3/config | grep -oP 'theme \K\w+')
-height=$(grep -w height ~/.config/polybar/$theme/bar-settings.ini | grep -oP 'height = \K\w+')
+~/.config/polybar/launch.sh
+height=$(grep -w height ~/.config/polybar/bar-settings.ini | grep -oP 'height = \K\w+')
+border_size=$(grep -w border-size ~/.config/polybar/bar-settings.ini | grep -oP 'border-size = \K\w+')
 
-newGap=`expr $height + $ADDITIONAL_GAP`
-sed -i -e "0,/top_padding .*/s//top_padding $newGap/" $BSPWM_CONFIG
+newGap=`expr $height + $border_size + $ADDITIONAL_GAP`
+# sed -i -e "0,/top_padding .*/s//top_padding $newGap/" $BSPWM_CONFIG
 polybar-msg cmd show
 bspc config top_padding $newGap
